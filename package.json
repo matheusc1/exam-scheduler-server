@@ -10,11 +10,16 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@neondatabase/serverless": "^0.10.1",
+    "@paralleldrive/cuid2": "^2.2.2",
+    "dotenv": "^16.4.5",
+    "drizzle-orm": "^0.36.0",
     "fastify": "^5.1.0"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
     "@types/node": "^22.8.6",
+    "drizzle-kit": "^0.27.0",
     "tsx": "^4.19.2",
     "typescript": "^5.6.3"
   }

@@ -1,7 +1,7 @@
 import { supportCenter } from '../../db/schema'
 import { createRecords } from '../db-utils/create-records'
 
-export interface createSupportCenterRequest {
+export interface CreateSupportCenterRequest {
   name: string
   numberOfComputers: number
 }
@@ -9,6 +9,6 @@ export interface createSupportCenterRequest {
 export async function createSupportCenter({
   name,
   numberOfComputers,
-}: createSupportCenterRequest) {
+}: CreateSupportCenterRequest) {
   await createRecords(supportCenter, { name, numberOfComputers })
 }

@@ -7,6 +7,7 @@ import {
 import fastifyCors from '@fastify/cors'
 
 import { supportCenterRoutes } from './routes/supportCenterRoutes'
+import { operatingHoursRoute } from './routes/operatingHoursRoutes'
 
 const app = fastify().withTypeProvider<ZodTypeProvider>()
 
@@ -20,6 +21,7 @@ app.setValidatorCompiler(validatorCompiler)
 app.setSerializerCompiler(serializerCompiler)
 
 app.register(supportCenterRoutes)
+app.register(operatingHoursRoute)
 
 app.listen({ port: 3333 }).then(() => {
   console.log('HTTP server running')

@@ -7,9 +7,9 @@ import {
   time,
   index,
   timestamp,
+  primaryKey
 } from 'drizzle-orm/pg-core'
 import { createId } from '@paralleldrive/cuid2'
-import { primaryKey } from 'drizzle-orm/pg-core'
 
 const rolesEnum = pgEnum('roles', ['admin', 'coordinator', 'student'])
 const examEnum = pgEnum('type', ['mandatory', 'substitute'])

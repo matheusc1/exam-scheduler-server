@@ -9,6 +9,7 @@ import {
   timestamp,
 } from 'drizzle-orm/pg-core'
 import { createId } from '@paralleldrive/cuid2'
+import { primaryKey } from 'drizzle-orm/pg-core'
 
 const rolesEnum = pgEnum('roles', ['admin', 'coordinator', 'student'])
 const examEnum = pgEnum('type', ['mandatory', 'substitute'])
@@ -22,20 +23,24 @@ export const adminUser = pgTable('admin_user', {
   role: rolesEnum(),
 })
 
-export const student = pgTable('student', {
-  id: text('id')
-    .primaryKey()
-    .$defaultFn(() => createId()),
-  ra: text('ra').notNull().unique(),
-  name: text('name').notNull(),
-  email: text('email').notNull().unique(),
-  password: text('password').notNull(),
-  birthDate: date('birth_date', { mode: 'date' }).notNull(),
-  supportCenter: text('support-center_id')
-    .notNull()
-    .references(() => supportCenter.id),
-  role: rolesEnum().default('student'),
-})
+export const student = pgTable(
+  'student',
+  {
+    id: text('id').$defaultFn(() => createId()),
+    ra: text('ra').notNull().unique(),
+    name: text('name').notNull(),
+    email: text('email').notNull().unique(),
+    password: text('password').notNull(),
+    birthDate: date('birth_date', { mode: 'date' }).notNull(),
+    supportCenter: text('support-center_id')
+      .notNull()
+      .references(() => supportCenter.id),
+    role: rolesEnum().default('student'),
+  },
+  t => {
+    return [primaryKey({ columns: [t.id, t.ra] })]
+  }
+)
 
 export const period = pgTable('period', {
   id: text('id')

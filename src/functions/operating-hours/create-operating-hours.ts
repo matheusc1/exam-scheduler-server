@@ -1,7 +1,7 @@
 import { supportCenterOperatingHours } from '../../db/schema'
 import { createRecords } from '../db-utils/create-records'
 
-export interface createOperatingHoursRequest {
+export interface CreateOperatingHoursRequest {
   supportCenter: string
   weekDay: number
   openTime: string
@@ -13,7 +13,7 @@ export async function createOperatingHours({
   weekDay,
   openTime,
   closeTime,
-}: createOperatingHoursRequest) {
+}: CreateOperatingHoursRequest) {
   await createRecords(supportCenterOperatingHours, {
     supportCenter,
     weekDay,

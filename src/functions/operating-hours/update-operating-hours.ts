@@ -1,8 +1,8 @@
-import type { createOperatingHoursRequest } from './create-operating-hours'
+import type { CreateOperatingHoursRequest } from './create-operating-hours'
 import { supportCenterOperatingHours } from '../../db/schema'
 import { updateRecords } from '../db-utils/update-records'
 
-interface updateOperatingHoursRequest extends createOperatingHoursRequest {
+interface UpdateOperatingHoursRequest extends CreateOperatingHoursRequest {
   id: string
 }
 
@@ -12,7 +12,7 @@ export async function updateOperatingHours({
   weekDay,
   openTime,
   closeTime,
-}: updateOperatingHoursRequest) {
+}: UpdateOperatingHoursRequest) {
   await updateRecords(
     supportCenterOperatingHours,
     { supportCenter, weekDay, openTime, closeTime },

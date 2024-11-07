@@ -2,7 +2,7 @@ import { and, eq } from 'drizzle-orm'
 import { db } from '../../db'
 import { supportCenterOperatingHours } from '../../db/schema'
 
-interface deleteOperatingHoursRequest {
+interface DeleteOperatingHoursRequest {
   supportCenterId: string
   operatingHoursId: string
 }
@@ -10,7 +10,7 @@ interface deleteOperatingHoursRequest {
 export async function deleteOperatingHours({
   supportCenterId,
   operatingHoursId,
-}: deleteOperatingHoursRequest) {
+}: DeleteOperatingHoursRequest) {
   await db
     .delete(supportCenterOperatingHours)
     .where(

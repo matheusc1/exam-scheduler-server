@@ -10,7 +10,7 @@ import {
 } from 'drizzle-orm/pg-core'
 import { createId } from '@paralleldrive/cuid2'
 
-const rolesEnum = pgEnum('roles', ['admin', 'coordinator'])
+const rolesEnum = pgEnum('roles', ['admin', 'coordinator', 'student'])
 const examEnum = pgEnum('type', ['mandatory', 'substitute'])
 
 export const adminUser = pgTable('admin_user', {
@@ -23,7 +23,10 @@ export const adminUser = pgTable('admin_user', {
 })
 
 export const student = pgTable('student', {
-  ra: text('ra').notNull().unique().primaryKey(),
+  id: text('id')
+    .primaryKey()
+    .$defaultFn(() => createId()),
+  ra: text('ra').notNull().unique(),
   name: text('name').notNull(),
   email: text('email').notNull().unique(),
   password: text('password').notNull(),
@@ -31,6 +34,7 @@ export const student = pgTable('student', {
   supportCenter: text('support-center_id')
     .notNull()
     .references(() => supportCenter.id),
+  role: rolesEnum().default('student'),
 })
 
 export const period = pgTable('period', {
@@ -63,8 +67,8 @@ export const enrollment = pgTable('enrollment', {
     .references(() => period.id),
 })
 
-export const exam = pgTable(
-  'exam',
+export const examSchedule = pgTable(
+  'exam_schedule',
   {
     id: text('id')
       .primaryKey()

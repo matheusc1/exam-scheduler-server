@@ -13,6 +13,7 @@ export async function getAvailableDates({
     .select()
     .from(availableSlots)
     .where(eq(availableSlots.supportCenter, supportCenterId))
+    .orderBy(availableSlots.date)
 
   const uniqueDates = [
     ...new Set(records.map(record => record.date.toISOString().split('T')[0])),

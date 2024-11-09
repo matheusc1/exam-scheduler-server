@@ -36,6 +36,7 @@ export async function getAvailableSlots({
   // Passo 2: Query para buscar horários disponíveis dentro do horário de funcionamento
   const availableTimes = await db
     .select({
+      id: availableSlots.id,
       time: availableSlots.time,
       availableSlots: availableSlots.availableSlots,
     })

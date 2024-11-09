@@ -17,6 +17,7 @@ export async function getOperatingHours(supportCenterId: string) {
       eq(supportCenter.id, supportCenterOperatingHours.supportCenter)
     )
     .where(eq(supportCenterOperatingHours.supportCenter, supportCenterId))
+    .orderBy(supportCenterOperatingHours.weekDay)
 
   return {
     operatingHours,

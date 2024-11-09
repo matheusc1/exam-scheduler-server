@@ -14,7 +14,7 @@ export const operatingHoursRoute: FastifyPluginAsyncZod = async app => {
           id: z.string(),
         }),
         body: z.object({
-          weekDay: z.number().min(1).max(6),
+          weekDays: z.number().min(1).max(6).array(),
           openTime: z.string(),
           closeTime: z.string(),
         }),
@@ -22,11 +22,11 @@ export const operatingHoursRoute: FastifyPluginAsyncZod = async app => {
     },
     async request => {
       const { id } = request.params
-      const { weekDay, openTime, closeTime } = request.body
+      const { weekDays, openTime, closeTime } = request.body
 
       await createOperatingHours({
         supportCenter: id,
-        weekDay,
+        weekDays,
         openTime,
         closeTime,
       })

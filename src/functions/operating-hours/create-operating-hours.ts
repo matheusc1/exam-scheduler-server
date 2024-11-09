@@ -1,23 +1,25 @@
+import { db } from '../../db'
 import { supportCenterOperatingHours } from '../../db/schema'
-import { createRecords } from '../db-utils/create-records'
 
 export interface CreateOperatingHoursRequest {
   supportCenter: string
-  weekDay: number
+  weekDays: number[]
   openTime: string
   closeTime: string
 }
 
 export async function createOperatingHours({
   supportCenter,
-  weekDay,
+  weekDays,
   openTime,
   closeTime,
 }: CreateOperatingHoursRequest) {
-  await createRecords(supportCenterOperatingHours, {
+  const records = weekDays.map(weekDay => ({
     supportCenter,
     weekDay,
     openTime,
     closeTime,
-  })
+  }))
+
+  await db.insert(supportCenterOperatingHours).values(records)
 }

@@ -7,7 +7,7 @@ import {
   time,
   index,
   timestamp,
-  primaryKey
+  primaryKey,
 } from 'drizzle-orm/pg-core'
 import { createId } from '@paralleldrive/cuid2'
 
@@ -61,7 +61,7 @@ export const enrollment = pgTable('enrollment', {
   id: text('id')
     .primaryKey()
     .$defaultFn(() => createId()),
-  studentId: text('student_id')
+  studentRa: text('student_ra')
     .notNull()
     .references(() => student.ra),
   disciplineId: text('discipline_id')

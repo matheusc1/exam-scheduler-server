@@ -14,10 +14,5 @@ export async function getStudents() {
 }
 
 export async function getStudentById({ ra }: getStudentByIdRequest) {
-  const studentSelected = await db
-    .select()
-    .from(student)
-    .where(eq(student.ra, ra))
-
-  return { studentSelected }
+  return await db.select().from(student).where(eq(student.ra, ra))
 }

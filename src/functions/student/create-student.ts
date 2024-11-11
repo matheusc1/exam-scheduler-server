@@ -3,7 +3,7 @@ import { db } from '../../db'
 import { student } from '../../db/schema'
 import * as argon2 from 'argon2'
 
-export interface createStudentRequest {
+export interface CreateStudentRequest {
   ra: string
   name: string
   email: string
@@ -11,7 +11,7 @@ export interface createStudentRequest {
   supportCenter: string
 }
 
-export async function createStudents(students: createStudentRequest[]) {
+export async function createStudents(students: CreateStudentRequest[]) {
   const studentRecords = await Promise.all(
     students.map(async student => {
       const formattedBirthDate = dayjs(student.birthDate).format('DD-MM-YYYY')

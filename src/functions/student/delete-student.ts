@@ -1,10 +1,10 @@
 import { student } from '../../db/schema'
 import { deleteRecords } from '../db-utils/delete-records'
 
-interface deleteStudentRequest {
+interface DeleteStudentRequest {
   ra: string
 }
 
-export async function deleteStudent({ ra }: deleteStudentRequest) {
+export async function deleteStudent({ ra }: DeleteStudentRequest) {
   await deleteRecords(student, student.ra, ra)
 }

@@ -2,7 +2,7 @@ import { eq } from 'drizzle-orm'
 import { db } from '../../db'
 import { student } from '../../db/schema'
 
-interface updateStudentRequest {
+interface UpdateStudentRequest {
   ra: string
   name: string
   email: string
@@ -14,7 +14,7 @@ export async function updateStudent({
   name,
   email,
   supportCenter,
-}: updateStudentRequest) {
+}: UpdateStudentRequest) {
   await db
     .update(student)
     .set({ name, email, supportCenter })

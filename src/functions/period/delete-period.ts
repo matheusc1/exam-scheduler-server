@@ -1,10 +1,10 @@
 import { period } from '../../db/schema'
 import { deleteRecords } from '../db-utils/delete-records'
 
-interface deletePeriodRequest {
+interface DeletePeriodRequest {
   id: string
 }
 
-export async function deletePeriod({ id }: deletePeriodRequest) {
+export async function deletePeriod({ id }: DeletePeriodRequest) {
   await deleteRecords(period, period.id, id)
 }

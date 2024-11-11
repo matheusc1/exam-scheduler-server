@@ -1,11 +1,11 @@
 import { discipline } from '../../db/schema'
-import type { createDisciplineRequest } from './create-discipline'
+import type { CreateDisciplineRequest } from './create-discipline'
 import { updateRecords } from '../db-utils/update-records'
 
-interface updateDisciplineRequest extends createDisciplineRequest {
+interface UpdateDisciplineRequest extends CreateDisciplineRequest {
   id: string
 }
 
-export async function updateDiscipline({ id, name }: updateDisciplineRequest) {
+export async function updateDiscipline({ id, name }: UpdateDisciplineRequest) {
   await updateRecords(discipline, { name }, discipline.id, id)
 }

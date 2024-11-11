@@ -3,7 +3,7 @@ import { db } from '../../db'
 import { student } from '../../db/schema'
 import { getRecords } from '../db-utils/get-records'
 
-interface getStudentByIdRequest {
+interface GetStudentByIdRequest {
   ra: string
 }
 
@@ -13,6 +13,6 @@ export async function getStudents() {
   return { students }
 }
 
-export async function getStudentById({ ra }: getStudentByIdRequest) {
+export async function getStudentById({ ra }: GetStudentByIdRequest) {
   return await db.select().from(student).where(eq(student.ra, ra))
 }

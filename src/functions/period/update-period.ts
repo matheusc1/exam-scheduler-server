@@ -1,8 +1,8 @@
 import { period } from '../../db/schema'
-import type { createPeriodRequest } from './create-period'
+import type { CreatePeriodRequest } from './create-period'
 import { updateRecords } from '../db-utils/update-records'
 
-interface updatePeriodRequest extends createPeriodRequest {
+interface UpdatePeriodRequest extends CreatePeriodRequest {
   id: string
 }
 
@@ -10,7 +10,7 @@ export async function updatePeriod({
   id,
   startDate,
   endDate,
-}: updatePeriodRequest) {
+}: UpdatePeriodRequest) {
   await updateRecords(
     period,
     { startDate: startDate.toDate(), endDate: endDate.toDate() },

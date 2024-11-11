@@ -1,8 +1,8 @@
+import { db } from '../../db'
 import { period } from '../../db/schema'
-import { getRecords } from '../db-utils/get-records'
 
 export async function getPeriods() {
-  const periods = await getRecords(period)
+  const periods = await db.select().from(period).orderBy(period.startDate)
 
   return { periods }
 }

@@ -5,6 +5,9 @@ import {
   type ZodTypeProvider,
 } from 'fastify-type-provider-zod'
 import fastifyCors from '@fastify/cors'
+import fastifyJwt from '@fastify/jwt'
+import fastifyCookie from '@fastify/cookie'
+import dotenv from 'dotenv'
 
 import { supportCenterRoutes } from './routes/supportCenterRoutes'
 import { operatingHoursRoute } from './routes/operatingHoursRoutes'
@@ -15,7 +18,17 @@ import { studentsRoutes } from './routes/studentsRoutes'
 import { enrollmentRoutes } from './routes/enrollmentRoutes'
 import { scheduleRoutes } from './routes/scheduleRoutes'
 
+dotenv.config()
+
 const app = fastify().withTypeProvider<ZodTypeProvider>()
+
+app.register(fastifyJwt, {
+  secret: process.env.JWT_SECRET || '',
+})
+
+app.register(fastifyCookie, {
+  secret: process.env.JWT_SECRET,
+})
 
 app.register(fastifyCors, {
   // origin: /localhost\:5173/,

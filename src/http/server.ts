@@ -13,6 +13,7 @@ import { periodRoutes } from './routes/periodRoutes'
 import { disciplineRoutes } from './routes/disciplineRoutes'
 import { studentsRoutes } from './routes/studentsRoutes'
 import { enrollmentRoutes } from './routes/enrollmentRoutes'
+import { scheduleRoutes } from './routes/scheduleRoutes'
 
 const app = fastify().withTypeProvider<ZodTypeProvider>()
 
@@ -32,6 +33,7 @@ app.register(periodRoutes)
 app.register(disciplineRoutes)
 app.register(studentsRoutes)
 app.register(enrollmentRoutes)
+app.register(scheduleRoutes)
 
 app.listen({ port: 3333 }).then(() => {
   console.log('HTTP server running')

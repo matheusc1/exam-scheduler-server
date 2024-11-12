@@ -9,6 +9,7 @@ import fastifyJwt from '@fastify/jwt'
 import fastifyCookie from '@fastify/cookie'
 import dotenv from 'dotenv'
 
+import { authentication } from './auth/authentication'
 import { supportCenterRoutes } from './routes/supportCenterRoutes'
 import { operatingHoursRoute } from './routes/operatingHoursRoutes'
 import { availableSlotsRoutes } from './routes/availableSlotsRoutes'
@@ -39,6 +40,7 @@ app.register(fastifyCors, {
 app.setValidatorCompiler(validatorCompiler)
 app.setSerializerCompiler(serializerCompiler)
 
+app.register(authentication)
 app.register(supportCenterRoutes)
 app.register(operatingHoursRoute)
 app.register(availableSlotsRoutes)

@@ -1,5 +1,5 @@
 import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod'
-import z, { date } from 'zod'
+import z from 'zod'
 import dayjs from 'dayjs'
 import { createAvailableSlots } from '../../functions/available-slots/create-available-slots'
 import {

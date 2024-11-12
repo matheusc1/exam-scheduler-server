@@ -1,10 +1,7 @@
 import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod'
 import z from 'zod'
 import { createEnrollment } from '../../functions/enrollment/create-enrollment'
-import {
-  deleteEnrollment,
-  deleteAllEnrollments,
-} from '../../functions/enrollment/delete-enrollment'
+import { deleteEnrollment } from '../../functions/enrollment/delete-enrollment'
 import { updateEnrollment } from '../../functions/enrollment/update-enrollment'
 import { getEnrollments } from '../../functions/enrollment/get-enrollment'
 import { getEnrollmentByStudentRa } from '../../functions/enrollment/get-enrollment-by-student-id'
@@ -30,10 +27,6 @@ export const enrollmentRoutes: FastifyPluginAsyncZod = async app => {
       }
     }
   )
-
-  app.delete('/enrollments', async () => {
-    await deleteAllEnrollments()
-  })
 
   app.delete(
     '/enrollment/:id',

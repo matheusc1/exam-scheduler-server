@@ -2,7 +2,7 @@ import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod'
 import z from 'zod'
 import dayjs from 'dayjs'
 import {
-  type createStudentRequest,
+  type CreateStudentRequest,
   createStudents,
 } from '../../functions/student/create-student'
 import { deleteStudent } from '../../functions/student/delete-student'
@@ -35,7 +35,7 @@ export const studentsRoutes: FastifyPluginAsyncZod = async app => {
       },
     },
     async (request, reply) => {
-      const students: createStudentRequest[] = request.body
+      const students: CreateStudentRequest[] = request.body
 
       try {
         await createStudents(students)

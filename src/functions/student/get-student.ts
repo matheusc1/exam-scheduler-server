@@ -37,7 +37,10 @@ export async function getStudentById({ ra }: GetStudentByIdRequest) {
       name: student.name,
       email: student.email,
       birthDate: student.birthDate,
-      supportCenter: supportCenter.name,
+      supportCenter: {
+        id: student.supportCenter,
+        name: supportCenter.name,
+      },
     })
     .from(student)
     .innerJoin(supportCenter, eq(supportCenter.id, student.supportCenter))

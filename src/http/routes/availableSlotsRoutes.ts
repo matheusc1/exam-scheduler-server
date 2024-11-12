@@ -7,7 +7,6 @@ import {
   deleteAvailableSlots,
 } from '../../functions/available-slots/delete-available-slots'
 import { getAvailableSlots } from '../../functions/available-slots/get-available-slots'
-import { updateAvailableSlots } from '../../functions/available-slots/update-available-slots'
 import { getAvailableDates } from '../../functions/available-slots/get-available-dates'
 
 export const availableSlotsRoutes: FastifyPluginAsyncZod = async app => {
@@ -114,38 +113,6 @@ export const availableSlotsRoutes: FastifyPluginAsyncZod = async app => {
       const availableDates = await getAvailableDates({ supportCenterId })
 
       return { availableDates }
-    }
-  )
-
-  app.put(
-    '/support-center/:supportCenterId/available-slots',
-    {
-      schema: {
-        params: z.object({
-          supportCenterId: z.string(),
-        }),
-        query: z.object({
-          date: z.string().refine(date => dayjs(date).isValid(), {
-            message: 'Data inválida',
-          }),
-          time: z.string(),
-        }),
-        body: z.object({
-          slots: z.number(),
-        }),
-      },
-    },
-    async request => {
-      const { supportCenterId } = request.params
-      const { date, time } = request.query as { date: string; time: string }
-      const { slots } = request.body
-
-      await updateAvailableSlots({
-        supportCenterId,
-        date: dayjs(date),
-        time,
-        slots,
-      })
     }
   )
 }

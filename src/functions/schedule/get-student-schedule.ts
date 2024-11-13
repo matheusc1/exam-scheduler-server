@@ -1,4 +1,4 @@
-import { and, eq, gt } from 'drizzle-orm'
+import { and, eq, sql } from 'drizzle-orm'
 import { db } from '../../db'
 import { discipline, enrollment, examSchedule } from '../../db/schema'
 
@@ -12,6 +12,8 @@ export async function getStudentSchedules({
   const schedules = await db
     .select({
       id: examSchedule.id,
+      enrollmentId: examSchedule.enrollmentId,
+      discipline: discipline.name,
       type: examSchedule.type,
       scheduledDate: examSchedule.scheduledDate,
     })
@@ -25,12 +27,14 @@ export async function getStudentSchedules({
     )
     .innerJoin(discipline, eq(discipline.id, enrollment.disciplineId))
     .orderBy(
-      gt(examSchedule.scheduledDate, new Date()),
-      examSchedule.scheduledDate
+      sql`CASE WHEN ${examSchedule.type} = 'mandatory' THEN 0 ELSE 1 END`, // Prioriza 'mandatory' com 0
+      examSchedule.scheduledDate // Ordena pela data
     )
 
   const categorizedSchedules = schedules.map(schedule => ({
     id: schedule.id,
+    enrollmentId: schedule.enrollmentId,
+    discipline: schedule.discipline,
     type: schedule.type === 'mandatory' ? 'A2' : 'A3',
     scheduledDate: schedule.scheduledDate,
   }))

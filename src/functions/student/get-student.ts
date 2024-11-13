@@ -4,7 +4,7 @@ import { student, supportCenter } from '../../db/schema'
 import dayjs from 'dayjs'
 
 interface GetStudentByIdRequest {
-  ra: string
+  id: string
 }
 
 export async function getStudents() {
@@ -29,7 +29,7 @@ export async function getStudents() {
   return { students: formattedStudents }
 }
 
-export async function getStudentById({ ra }: GetStudentByIdRequest) {
+export async function getStudentById({ id }: GetStudentByIdRequest) {
   const studentData = await db
     .select({
       id: student.id,
@@ -44,8 +44,7 @@ export async function getStudentById({ ra }: GetStudentByIdRequest) {
     })
     .from(student)
     .innerJoin(supportCenter, eq(supportCenter.id, student.supportCenter))
-    .where(eq(student.ra, ra))
-    .orderBy(student.ra)
+    .where(eq(student.id, id))
 
   const formattedStudentData = studentData
     ? {

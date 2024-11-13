@@ -70,18 +70,18 @@ export const studentsRoutes: FastifyPluginAsyncZod = async app => {
   })
 
   app.get(
-    '/students/:ra',
+    '/students/:id',
     {
       schema: {
         params: z.object({
-          ra: z.string(),
+          id: z.string(),
         }),
       },
     },
     async request => {
-      const { ra } = request.params
+      const { id } = request.params
 
-      const student = await getStudentById({ ra })
+      const student = await getStudentById({ id })
       return { student }
     }
   )

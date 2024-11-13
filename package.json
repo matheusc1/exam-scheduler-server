@@ -1,5 +1,5 @@
 {
-  "name": "unifaa-exam-server",
+  "name": "exam-scheduler",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {

@@ -32,8 +32,7 @@ app.register(fastifyCookie, {
 })
 
 app.register(fastifyCors, {
-  // origin: /localhost\:5173/,
-  origin: '*',
+  origin: /localhost\:5173/,
   credentials: true,
 })
 

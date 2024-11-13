@@ -86,8 +86,8 @@ export const enrollmentRoutes: FastifyPluginAsyncZod = async app => {
     async request => {
       const { studentRa } = request.params
 
-      const enrollment = await getEnrollmentByStudentRa({ studentRa })
-      return { enrollment }
+      const enrollments = await getEnrollmentByStudentRa({ studentRa })
+      return { enrollments }
     }
   )
 }

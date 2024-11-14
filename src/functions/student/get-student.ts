@@ -1,7 +1,10 @@
 import { eq } from 'drizzle-orm'
 import { db } from '../../db'
 import { student, supportCenter } from '../../db/schema'
+import utc from 'dayjs/plugin/utc'
 import dayjs from 'dayjs'
+
+dayjs.extend(utc)
 
 interface GetStudentByIdRequest {
   id: string
@@ -23,7 +26,7 @@ export async function getStudents() {
 
   const formattedStudents = students.map(student => ({
     ...student,
-    birthDate: dayjs(student.birthDate).format('DD-MM-YYYY'),
+    birthDate: dayjs(student.birthDate).utc().format('DD-MM-YYYY'),
   }))
 
   return { students: formattedStudents }
@@ -49,7 +52,7 @@ export async function getStudentById({ id }: GetStudentByIdRequest) {
   const formattedStudentData = studentData
     ? {
         ...studentData[0],
-        birthDate: dayjs(studentData[0].birthDate).format('DD-MM-YYYY'),
+        birthDate: dayjs(studentData[0].birthDate).utc().format('DD-MM-YYYY'),
       }
     : null
 

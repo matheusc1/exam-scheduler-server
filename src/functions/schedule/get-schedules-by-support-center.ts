@@ -1,6 +1,6 @@
 import { db } from '../../db'
 import { examSchedule, enrollment, student, discipline } from '../../db/schema'
-import { eq, gt, sql } from 'drizzle-orm'
+import { eq, gt, gte, sql } from 'drizzle-orm'
 
 interface GetScheduleBySupportCenterRequest {
   supportCenterId: string
@@ -54,6 +54,7 @@ export async function getAllSchedulesBySupportCenter({
       filteredEnrollments,
       eq(filteredExamSchedules.enrollmentId, filteredEnrollments.enrollmentId)
     )
+    .where(gte(filteredExamSchedules.scheduledDate, new Date()))
     .orderBy(
       gt(filteredExamSchedules.scheduledDate, new Date()),
       filteredExamSchedules.scheduledDate

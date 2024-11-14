@@ -1,4 +1,4 @@
-import { eq } from 'drizzle-orm'
+import { and, eq, gt } from 'drizzle-orm'
 import { db } from '../../db'
 import { availableSlots } from '../../db/schema'
 
@@ -12,7 +12,12 @@ export async function getAvailableDates({
   const records = await db
     .select()
     .from(availableSlots)
-    .where(eq(availableSlots.supportCenter, supportCenterId))
+    .where(
+      and(
+        eq(availableSlots.supportCenter, supportCenterId),
+        gt(availableSlots.date, new Date())
+      )
+    )
     .orderBy(availableSlots.date)
 
   const uniqueDates = [

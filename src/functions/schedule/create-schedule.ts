@@ -2,7 +2,7 @@ import type { Dayjs } from 'dayjs'
 import { db } from '../../db'
 import { enrollment, examSchedule, student } from '../../db/schema'
 import { updateAvailableSlots } from '../available-slots/update-available-slots'
-import { eq } from 'drizzle-orm'
+import { and, eq } from 'drizzle-orm'
 
 export interface CreateScheduleRequest {
   enrollmentId: string
@@ -26,6 +26,26 @@ export async function createSchedule({
 
   if (!supportCenterId) {
     throw new Error('Support center not found for the given enrollment ID.')
+  }
+
+  // Se o tipo for "substitute", verifica se já existe uma avaliação "mandatory"
+  if (type === 'substitute') {
+    const mandatoryExam = await db
+      .select()
+      .from(examSchedule)
+      .where(
+        and(
+          eq(examSchedule.enrollmentId, enrollmentId),
+          eq(examSchedule.type, 'mandatory')
+        )
+      )
+      .limit(1)
+
+    if (!mandatoryExam.length) {
+      throw new Error(
+        'A mandatory exam must be scheduled before a substitute exam.'
+      )
+    }
   }
 
   await db.insert(examSchedule).values({

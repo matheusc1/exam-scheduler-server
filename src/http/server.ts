@@ -10,14 +10,14 @@ import fastifyCookie from '@fastify/cookie'
 import dotenv from 'dotenv'
 
 import { authentication } from './auth/authentication'
-import { supportCenterRoutes } from './routes/supportCenterRoutes'
-import { operatingHoursRoute } from './routes/operatingHoursRoutes'
-import { availableSlotsRoutes } from './routes/availableSlotsRoutes'
-import { periodRoutes } from './routes/periodRoutes'
-import { disciplineRoutes } from './routes/disciplineRoutes'
-import { studentsRoutes } from './routes/studentsRoutes'
-import { enrollmentRoutes } from './routes/enrollmentRoutes'
-import { scheduleRoutes } from './routes/scheduleRoutes'
+import { supportCenterRoutes } from './routes/support-center-routes'
+import { operatingHoursRoute } from './routes/operating-hours-routes'
+import { availableSlotsRoutes } from './routes/available-slots-routes'
+import { periodRoutes } from './routes/period-routes'
+import { disciplineRoutes } from './routes/discipline-routes'
+import { studentsRoutes } from './routes/students-routes'
+import { enrollmentRoutes } from './routes/enrollment-routes'
+import { scheduleRoutes } from './routes/schedule-routes'
 
 dotenv.config()
 

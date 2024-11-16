@@ -4,11 +4,14 @@ import { createSupportCenter } from '../../functions/support-center/create-suppo
 import { deleteSupportCenter } from '../../functions/support-center/delete-support-center'
 import { getSupportCenters } from '../../functions/support-center/get-support-center'
 import { updateSupportCenter } from '../../functions/support-center/update-support-center'
+import { authMiddleware } from '../auth/auth-middleware'
+import { roleMiddleware } from '../auth/role-middleware'
 
 export const supportCenterRoutes: FastifyPluginAsyncZod = async app => {
   app.post(
     '/support-center',
     {
+      preHandler: [authMiddleware, roleMiddleware(['admin'])],
       schema: {
         body: z.object({
           name: z.string(),
@@ -25,6 +28,7 @@ export const supportCenterRoutes: FastifyPluginAsyncZod = async app => {
   app.delete(
     '/support-center/:id',
     {
+      preHandler: [authMiddleware, roleMiddleware(['admin'])],
       schema: {
         params: z.object({
           id: z.string(),
@@ -37,14 +41,19 @@ export const supportCenterRoutes: FastifyPluginAsyncZod = async app => {
     }
   )
 
-  app.get('/support-center', async () => {
-    const { supportCenters } = await getSupportCenters()
-    return { supportCenters }
-  })
+  app.get(
+    '/support-center',
+    { preHandler: [authMiddleware, roleMiddleware(['admin', 'coordinator'])] },
+    async () => {
+      const { supportCenters } = await getSupportCenters()
+      return { supportCenters }
+    }
+  )
 
   app.put(
     '/support-center/:id',
     {
+      preHandler: [authMiddleware, roleMiddleware(['admin'])],
       schema: {
         params: z.object({
           id: z.string(),

@@ -5,11 +5,14 @@ import { createPeriod } from '../../functions/period/create-period'
 import { deletePeriod } from '../../functions/period/delete-period'
 import { getPeriods } from '../../functions/period/get-period'
 import { updatePeriod } from '../../functions/period/update-period'
+import { authMiddleware } from '../auth/auth-middleware'
+import { roleMiddleware } from '../auth/role-middleware'
 
 export const periodRoutes: FastifyPluginAsyncZod = async app => {
   app.post(
     '/period',
     {
+      preHandler: [authMiddleware, roleMiddleware(['admin'])],
       schema: {
         body: z.object({
           startDate: z.string().refine(date => dayjs(date).isValid(), {
@@ -34,6 +37,7 @@ export const periodRoutes: FastifyPluginAsyncZod = async app => {
   app.delete(
     '/period/:id',
     {
+      preHandler: [authMiddleware, roleMiddleware(['admin'])],
       schema: {
         params: z.object({
           id: z.string(),
@@ -47,15 +51,20 @@ export const periodRoutes: FastifyPluginAsyncZod = async app => {
     }
   )
 
-  app.get('/period', async () => {
-    const { periods } = await getPeriods()
+  app.get(
+    '/period',
+    { preHandler: [authMiddleware, roleMiddleware(['admin'])] },
+    async () => {
+      const { periods } = await getPeriods()
 
-    return { periods }
-  })
+      return { periods }
+    }
+  )
 
   app.put(
     '/period/:id',
     {
+      preHandler: [authMiddleware, roleMiddleware(['admin'])],
       schema: {
         params: z.object({
           id: z.string(),

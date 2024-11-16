@@ -4,11 +4,14 @@ import { createDiscipline } from '../../functions/discipline/create-discipline'
 import { deleteDiscipline } from '../../functions/discipline/delete-discipline'
 import { getDisciplines } from '../../functions/discipline/get-discipline'
 import { updateDiscipline } from '../../functions/discipline/update-discipline'
+import { authMiddleware } from '../auth/auth-middleware'
+import { roleMiddleware } from '../auth/role-middleware'
 
 export const disciplineRoutes: FastifyPluginAsyncZod = async app => {
   app.post(
     '/discipline',
     {
+      preHandler: [authMiddleware, roleMiddleware(['admin'])],
       schema: {
         body: z.object({
           name: z.string(),
@@ -27,6 +30,7 @@ export const disciplineRoutes: FastifyPluginAsyncZod = async app => {
   app.delete(
     '/discipline/:id',
     {
+      preHandler: [authMiddleware, roleMiddleware(['admin'])],
       schema: {
         params: z.object({
           id: z.string(),
@@ -40,15 +44,20 @@ export const disciplineRoutes: FastifyPluginAsyncZod = async app => {
     }
   )
 
-  app.get('/discipline', async () => {
-    const { disciplines } = await getDisciplines()
+  app.get(
+    '/discipline',
+    { preHandler: [authMiddleware, roleMiddleware(['admin'])] },
+    async () => {
+      const { disciplines } = await getDisciplines()
 
-    return { disciplines }
-  })
+      return { disciplines }
+    }
+  )
 
   app.put(
     '/discipline/:id',
     {
+      preHandler: [authMiddleware, roleMiddleware(['admin'])],
       schema: {
         params: z.object({
           id: z.string(),

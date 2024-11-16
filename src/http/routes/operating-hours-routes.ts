@@ -4,11 +4,14 @@ import { createOperatingHours } from '../../functions/operating-hours/create-ope
 import { deleteOperatingHours } from '../../functions/operating-hours/delete-operating-hours'
 import { getOperatingHours } from '../../functions/operating-hours/get-operating-hours'
 import { updateOperatingHours } from '../../functions/operating-hours/update-operating-hours'
+import { authMiddleware } from '../auth/auth-middleware'
+import { roleMiddleware } from '../auth/role-middleware'
 
 export const operatingHoursRoute: FastifyPluginAsyncZod = async app => {
   app.post(
     '/support-center/:id/operating-hours',
     {
+      preHandler: [authMiddleware, roleMiddleware(['admin'])],
       schema: {
         params: z.object({
           id: z.string(),
@@ -36,6 +39,7 @@ export const operatingHoursRoute: FastifyPluginAsyncZod = async app => {
   app.delete(
     '/support-center/:supportCenterId/operating-hours/:operatingHoursId',
     {
+      preHandler: [authMiddleware, roleMiddleware(['admin'])],
       schema: {
         params: z.object({
           supportCenterId: z.string(),
@@ -53,6 +57,7 @@ export const operatingHoursRoute: FastifyPluginAsyncZod = async app => {
   app.get(
     '/support-center/:id/operating-hours',
     {
+      preHandler: [authMiddleware, roleMiddleware(['admin'])],
       schema: {
         params: z.object({
           id: z.string(),
@@ -70,6 +75,7 @@ export const operatingHoursRoute: FastifyPluginAsyncZod = async app => {
   app.put(
     '/support-center/:supportCenterId/operating-hours/:operatingHoursId',
     {
+      preHandler: [authMiddleware, roleMiddleware(['admin'])],
       schema: {
         params: z.object({
           supportCenterId: z.string(),

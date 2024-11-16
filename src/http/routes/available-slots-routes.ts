@@ -8,11 +8,14 @@ import {
 } from '../../functions/available-slots/delete-available-slots'
 import { getAvailableSlots } from '../../functions/available-slots/get-available-slots'
 import { getAvailableDates } from '../../functions/available-slots/get-available-dates'
+import { authMiddleware } from '../auth/auth-middleware'
+import { roleMiddleware } from '../auth/role-middleware'
 
 export const availableSlotsRoutes: FastifyPluginAsyncZod = async app => {
   app.post(
     '/support-center/:supportCenterId/available-slots',
     {
+      preHandler: [authMiddleware, roleMiddleware(['admin'])],
       schema: {
         params: z.object({
           supportCenterId: z.string(),
@@ -43,13 +46,18 @@ export const availableSlotsRoutes: FastifyPluginAsyncZod = async app => {
     }
   )
 
-  app.delete('/support-center/available-slots', async () => {
-    await deleteAllAvailableSlots()
-  })
+  app.delete(
+    '/support-center/available-slots',
+    { preHandler: [authMiddleware, roleMiddleware(['admin'])] },
+    async () => {
+      await deleteAllAvailableSlots()
+    }
+  )
 
   app.delete(
     '/support-center/:supportCenterId/available-slots',
     {
+      preHandler: [authMiddleware, roleMiddleware(['admin'])],
       schema: {
         params: z.object({
           supportCenterId: z.string(),
@@ -75,6 +83,7 @@ export const availableSlotsRoutes: FastifyPluginAsyncZod = async app => {
   app.get(
     '/support-center/:supportCenterId/available-slots',
     {
+      preHandler: [authMiddleware, roleMiddleware(['student', 'admin'])],
       schema: {
         params: z.object({
           supportCenterId: z.string(),
@@ -102,6 +111,7 @@ export const availableSlotsRoutes: FastifyPluginAsyncZod = async app => {
   app.get(
     '/support-center/:supportCenterId/available-dates',
     {
+      preHandler: [authMiddleware, roleMiddleware(['student', 'admin'])],
       schema: {
         params: z.object({
           supportCenterId: z.string(),

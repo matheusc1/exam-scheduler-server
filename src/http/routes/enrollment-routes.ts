@@ -5,11 +5,14 @@ import { deleteEnrollment } from '../../functions/enrollment/delete-enrollment'
 import { updateEnrollment } from '../../functions/enrollment/update-enrollment'
 import { getEnrollments } from '../../functions/enrollment/get-enrollment'
 import { getEnrollmentByStudentRa } from '../../functions/enrollment/get-enrollment-by-student-id'
+import { authMiddleware } from '../auth/auth-middleware'
+import { roleMiddleware } from '../auth/role-middleware'
 
 export const enrollmentRoutes: FastifyPluginAsyncZod = async app => {
   app.post(
     '/enrollment',
     {
+      preHandler: [authMiddleware, roleMiddleware(['admin'])],
       schema: {
         body: z.object({
           studentRa: z.string().array(),
@@ -31,6 +34,7 @@ export const enrollmentRoutes: FastifyPluginAsyncZod = async app => {
   app.delete(
     '/enrollment/:id',
     {
+      preHandler: [authMiddleware, roleMiddleware(['admin'])],
       schema: {
         params: z.object({
           id: z.string(),
@@ -45,6 +49,7 @@ export const enrollmentRoutes: FastifyPluginAsyncZod = async app => {
   app.put(
     '/enrollment/:id',
     {
+      preHandler: [authMiddleware, roleMiddleware(['admin'])],
       schema: {
         params: z.object({
           id: z.string(),
@@ -69,14 +74,19 @@ export const enrollmentRoutes: FastifyPluginAsyncZod = async app => {
     }
   )
 
-  app.get('/enrollment', async () => {
-    const { enrollments } = await getEnrollments()
-    return { enrollments }
-  })
+  app.get(
+    '/enrollment',
+    { preHandler: [authMiddleware, roleMiddleware(['admin'])] },
+    async () => {
+      const { enrollments } = await getEnrollments()
+      return { enrollments }
+    }
+  )
 
   app.get(
     '/enrollment/:studentRa',
     {
+      preHandler: [authMiddleware, roleMiddleware(['student'])],
       schema: {
         params: z.object({
           studentRa: z.string(),

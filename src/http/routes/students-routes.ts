@@ -11,6 +11,8 @@ import {
   getStudents,
 } from '../../functions/student/get-student'
 import { updateStudent } from '../../functions/student/update-student'
+import { authMiddleware } from '../auth/auth-middleware'
+import { roleMiddleware } from '../auth/role-middleware'
 
 const studentSchema = z.object({
   ra: z.string(),
@@ -30,6 +32,7 @@ export const studentsRoutes: FastifyPluginAsyncZod = async app => {
   app.post(
     '/students',
     {
+      preHandler: [authMiddleware, roleMiddleware(['admin'])],
       schema: {
         body: studentsSchema,
       },
@@ -50,6 +53,7 @@ export const studentsRoutes: FastifyPluginAsyncZod = async app => {
   app.delete(
     '/students/:ra',
     {
+      preHandler: [authMiddleware, roleMiddleware(['admin'])],
       schema: {
         params: z.object({
           ra: z.string(),
@@ -63,15 +67,20 @@ export const studentsRoutes: FastifyPluginAsyncZod = async app => {
     }
   )
 
-  app.get('/students', async () => {
-    const { students } = await getStudents()
+  app.get(
+    '/students',
+    { preHandler: [authMiddleware, roleMiddleware(['admin'])] },
+    async () => {
+      const { students } = await getStudents()
 
-    return { students }
-  })
+      return { students }
+    }
+  )
 
   app.get(
     '/students/:id',
     {
+      preHandler: [authMiddleware, roleMiddleware(['student', 'admin'])],
       schema: {
         params: z.object({
           id: z.string(),
@@ -89,6 +98,7 @@ export const studentsRoutes: FastifyPluginAsyncZod = async app => {
   app.put(
     '/students/:ra',
     {
+      preHandler: [authMiddleware, roleMiddleware(['admin'])],
       schema: {
         params: z.object({
           ra: z.string(),

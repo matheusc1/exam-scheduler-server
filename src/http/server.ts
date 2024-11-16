@@ -25,6 +25,11 @@ const app = fastify().withTypeProvider<ZodTypeProvider>()
 
 app.register(fastifyJwt, {
   secret: process.env.JWT_SECRET || '',
+  verify: {
+    extractToken: request => {
+      return request.cookies.auth
+    },
+  },
 })
 
 app.register(fastifyCookie, {

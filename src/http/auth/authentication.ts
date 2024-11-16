@@ -1,7 +1,7 @@
 import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod'
 import z from 'zod'
 import argon2 from 'argon2'
-import { findUserByEmail } from '../../utils/findUserByEmail'
+import { findUserByEmail } from '../../utils/find-user-by-email'
 
 export const authentication: FastifyPluginAsyncZod = async app => {
   app.post(

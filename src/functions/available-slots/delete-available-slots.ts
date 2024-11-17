@@ -2,6 +2,7 @@ import type { Dayjs } from 'dayjs'
 import { db } from '../../db'
 import { availableSlots } from '../../db/schema'
 import { and, eq } from 'drizzle-orm'
+import { deleteRecords } from '../db-utils/delete-records'
 
 interface DeleteAvailableSlotsRequest {
   supportCenterId: string
@@ -22,6 +23,12 @@ export async function deleteAvailableSlots({
     )
 }
 
-export async function deleteAllAvailableSlots() {
-  await db.delete(availableSlots)
+export async function deleteAllAvailableSlots({
+  supportCenterId,
+}: { supportCenterId: string }) {
+  await deleteRecords(
+    availableSlots,
+    availableSlots.supportCenter,
+    supportCenterId
+  )
 }

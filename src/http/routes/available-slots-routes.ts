@@ -47,10 +47,19 @@ export const availableSlotsRoutes: FastifyPluginAsyncZod = async app => {
   )
 
   app.delete(
-    '/support-center/available-slots',
-    { preHandler: [authMiddleware, roleMiddleware(['admin'])] },
-    async () => {
-      await deleteAllAvailableSlots()
+    '/support-center/:supportCenterId/available-dates',
+    {
+      preHandler: [authMiddleware, roleMiddleware(['admin'])],
+      schema: {
+        params: z.object({
+          supportCenterId: z.string(),
+        }),
+      },
+    },
+    async request => {
+      const { supportCenterId } = request.params
+
+      await deleteAllAvailableSlots({ supportCenterId })
     }
   )
 

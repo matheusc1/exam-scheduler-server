@@ -56,7 +56,7 @@ npx drizzle-kit migrate
 4. Gere os usuários administrador e coordenador, caso queira alterar as credencias acesse `src/db/create-users`
 
 ```sh
-npx create-users
+npm run create-users
 ```
 
 5. Inicie o servidor

@@ -6,10 +6,14 @@ type Role = 'admin' | 'coordinator' | 'student'
 
 async function createUsers() {
   const users = [
-    { email: 'user@admin.com', password: 'user-admin', role: 'admin' as Role },
     {
-      email: 'user@coordination.com',
-      password: 'user-coordination',
+      email: 'unifaa@admin.com',
+      password: 'unifaa-admin',
+      role: 'admin' as Role,
+    },
+    {
+      email: 'unifaa@coordination.com',
+      password: 'unifaa-coordination',
       role: 'coordinator' as Role,
     },
   ]

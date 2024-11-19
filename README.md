@@ -33,11 +33,12 @@ A seção de rotas fornece todos os endpoints disponíveis na API para interagir
 - Banco de dados PostgreSQL (é possível utilizar o neon.tech para testar a aplicação, basta criar uma conta gratuita)
 
 ### Passo a passo
-1. Clone o repositório e acesse a pasta do projeto:
+1. Clone o repositório, acesse a pasta do projeto e instale as dependências:
 
 ```sh
 git clone https://github.com/matheusc1/exam-scheduler-server
 cd exam-scheduler-server
+npm install
 ```
 2. Crie um arquivo `.env` e siga as instruções em `.env.example`.
 
@@ -62,7 +63,7 @@ npm run create-users
 5. Inicie o servidor
 
 ```sh
-npm install
+npm run dev
 ```
 
 6. Acesse o repositório do front-end da aplicação: [instalação front-end](https://github.com/matheusc1/unifaa-exam-scheduler)  

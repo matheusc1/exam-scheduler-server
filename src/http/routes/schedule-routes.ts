@@ -3,7 +3,10 @@ import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod'
 import z from 'zod'
 import { createSchedule } from '../../functions/schedule/create-schedule'
 import { getStudentSchedules } from '../../functions/schedule/get-student-schedule'
-import { getAllSchedulesBySupportCenter } from '../../functions/schedule/get-schedules-by-support-center'
+import {
+  getAllSchedulesBySupportCenter,
+  getPastSchedules,
+} from '../../functions/schedule/get-schedules-by-support-center'
 import { updateSchedule } from '../../functions/schedule/update-schedule'
 import { authMiddleware } from '../auth/auth-middleware'
 import { roleMiddleware } from '../auth/role-middleware'
@@ -68,6 +71,23 @@ export const scheduleRoutes: FastifyPluginAsyncZod = async app => {
       const schedules = await getAllSchedulesBySupportCenter({
         supportCenterId: q,
       })
+      return { schedules }
+    }
+  )
+
+  app.get(
+    '/past-schedule/support-center',
+    {
+      preHandler: [authMiddleware, roleMiddleware(['admin'])],
+      schema: {
+        querystring: z.object({
+          q: z.string(),
+        }),
+      },
+    },
+    async request => {
+      const { q } = request.query
+      const schedules = await getPastSchedules({ supportCenterId: q })
       return { schedules }
     }
   )
